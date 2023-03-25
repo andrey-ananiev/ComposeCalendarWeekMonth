@@ -4,16 +4,13 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.Saver
-import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.runtime.setValue
-import io.github.boguszpawlowski.composecalendar.selection.DynamicSelectionState
-import io.github.boguszpawlowski.composecalendar.selection.SelectionMode
 import java.time.LocalDate
 
 @Stable
 public data class DayEvent(
   val day: LocalDate,
-  val eventCount: Int
+  val eventCountList: List<Int>
 )
 
 @Stable
@@ -30,21 +27,21 @@ public class EventState(
       }
     }
 
-  public fun getEventsByDate(date: LocalDate): Int = eventList.firstOrNull{ it.day == date }?.eventCount ?: 0
+  public fun getEventsByDate(date: LocalDate): List<Int> = eventList.firstOrNull{ it.day == date }?.eventCountList ?: listOf()
 
   public companion object {
     @Suppress("FunctionName", "UNCHECKED_CAST")
     // Factory function
     public fun Saver(): Saver<EventState, Any> = Saver(
         save = { row ->
-          row.eventList.map { "${it.day}\n${it.eventCount}" }
+          row.eventList.map { "${it.day}\n${it.eventCountList}" }
         },
         restore = { restored ->
           EventState(
-            initialEventList = (restored as? List<String>)?.map {
+            initialEventList = (restored as? List<String>)?.map { it ->
               DayEvent(
                 day = LocalDate.parse(it.lines()[0]),
-                eventCount = it.lines()[1].toIntOrNull()?: 0
+                eventCountList = it.lines()[1].lines().map { eventType -> eventType.toInt() }
               )
             }.orEmpty()
           )

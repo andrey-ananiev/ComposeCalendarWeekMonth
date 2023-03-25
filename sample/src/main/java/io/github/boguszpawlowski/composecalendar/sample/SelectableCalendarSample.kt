@@ -11,7 +11,6 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.RadioButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -21,16 +20,15 @@ import io.github.boguszpawlowski.composecalendar.rememberSelectableCalendarState
 import io.github.boguszpawlowski.composecalendar.selection.DynamicSelectionState
 import io.github.boguszpawlowski.composecalendar.selection.SelectionMode
 import io.github.boguszpawlowski.composecalendar.states.DayEvent
-import io.github.boguszpawlowski.composecalendar.states.EventState
 import java.time.LocalDate
 
 internal val dayEventList = listOf(
-  DayEvent(LocalDate.now(), 3),
-  DayEvent(LocalDate.now().minusDays(3L), 3),
-  DayEvent(LocalDate.now().minusDays(5L), 4),
-  DayEvent(LocalDate.now().minusDays(7L), 5),
-  DayEvent(LocalDate.now().plusDays(3L), 3),
-  DayEvent(LocalDate.now().plusDays(7L), 3),
+  DayEvent(LocalDate.now(), listOf(3)),
+  DayEvent(LocalDate.now().minusDays(3L), listOf(30)),
+  DayEvent(LocalDate.now().minusDays(5L), listOf(7)),
+  DayEvent(LocalDate.now().minusDays(7L), listOf(6)),
+  DayEvent(LocalDate.now().plusDays(3L), listOf(9)),
+  DayEvent(LocalDate.now().plusDays(7L), listOf(7)),
 )
 
 @Composable

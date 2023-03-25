@@ -40,7 +40,7 @@ public fun <T : SelectionState> DefaultDay(
 ) {
   val date = state.date
   val selectionState = state.selectionState
-  val isHasEvent = state.eventState.getEventsByDate(date) > 0
+  val isHasEvent = state.eventState.getEventsByDate(date).firstOrNull() { it != 0 } != null
   val isSelected = selectionState.isDateSelected(date)
 
   Card(

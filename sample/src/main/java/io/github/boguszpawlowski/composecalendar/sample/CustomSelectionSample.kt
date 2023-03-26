@@ -68,7 +68,7 @@ private class MonthSelectionState(
 private fun rememberMonthSelectionState(
   initialDay: LocalDate = LocalDate.now(),
   initialSelection: YearMonth? = null,
-  initialMonthMode: Boolean = true,
+  initialMode: Int = ModeState.MODE_MONTH,
   initialEventList: List<DayEvent> = emptyList(),
   currentState: CurrentState = rememberSaveable(saver = CurrentState.Saver()) {
     CurrentState(initialDay = initialDay)
@@ -77,7 +77,7 @@ private fun rememberMonthSelectionState(
     MonthSelectionState(initialSelection = initialSelection)
   },
   modeState: ModeState = rememberSaveable(saver = ModeState.Saver()) {
-    ModeState(initialMonthMode = initialMonthMode)
+    ModeState(initialMode = initialMode)
   },
   eventState: EventState = rememberSaveable(saver = EventState.Saver()) {
     EventState(initialEventList)

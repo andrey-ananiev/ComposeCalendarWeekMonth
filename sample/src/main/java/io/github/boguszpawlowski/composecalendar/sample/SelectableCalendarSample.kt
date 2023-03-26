@@ -55,8 +55,14 @@ fun ModeControls(
     verticalAlignment = Alignment.CenterVertically
   ) {
     RadioButton(
-      selected = modeState.isMonthMode,
-      onClick = { modeState.isMonthMode = !modeState.isMonthMode }
+      selected = modeState.mode == ModeState.MODE_MONTH,
+      onClick = {
+        modeState.mode = when (modeState.mode) {
+          ModeState.MODE_MONTH -> ModeState.MODE_WEEK
+          ModeState.MODE_WEEK -> ModeState.MODE_OFF
+          else -> ModeState.MODE_MONTH
+        }
+      }
     )
     Text(text = "Month mode")
   }

@@ -7,31 +7,35 @@ import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.setValue
 
 @Suppress("FunctionName") // Factory function
-public fun ModeState(initialMonthMode: Boolean): ModeState = ModeStateImpl(initialMonthMode)
+public fun ModeState(initialMode: Int): ModeState = ModeStateImpl(initialMode)
 
 @Stable
 public interface ModeState {
-  public var isMonthMode: Boolean
+  public var mode: Int
 
   public companion object {
     @Suppress("FunctionName") // Factory function
     public fun Saver(): Saver<ModeState, String> = Saver(
-      save = { it.isMonthMode.toString() },
-      restore = { ModeState(it.toBoolean()) }
+      save = { it.mode.toString() },
+      restore = { ModeState(it.toInt()) }
     )
+
+    public const val MODE_WEEK: Int = 0
+    public const val MODE_MONTH: Int = 1
+    public const val MODE_OFF: Int = 2
   }
 }
 
 @Stable
 private class ModeStateImpl(
-  initialMonthMode: Boolean,
+  initialMode: Int,
 ) : ModeState {
 
-  private var _currentMonthMode by mutableStateOf<Boolean>(initialMonthMode)
+  private var _currentMode by mutableStateOf<Int>(initialMode)
 
-  override var isMonthMode: Boolean
-    get() = _currentMonthMode
+  override var mode: Int
+    get() = _currentMode
     set(value) {
-      _currentMonthMode = value
+      _currentMode = value
     }
 }

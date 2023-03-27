@@ -47,7 +47,7 @@ public class EventState(
             val eventL = event.replace('\t', '\n').lines()
             DayEvent(
               day = LocalDate.parse(eventL[0]),
-              eventCountList = eventL[1].lines().map { eventType -> eventType.toInt() }
+              eventCountList = eventL[1].dropLast(1).drop(1).replace(", ", "\n").lines().map { it.toInt() }
             )
           }
           EventState(

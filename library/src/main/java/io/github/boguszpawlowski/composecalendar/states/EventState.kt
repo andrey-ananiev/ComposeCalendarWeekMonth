@@ -33,17 +33,25 @@ public class EventState(
     @Suppress("FunctionName", "UNCHECKED_CAST")
     // Factory function
     public fun Saver(): Saver<EventState, Any> = Saver(
-        save = { row ->
-          row.eventList.map { "${it.day}\n${it.eventCountList}" }
+        save = {
+          var saveString = ""
+          it.eventList.forEach { event ->
+            saveString += "${event.day}\t${event.eventCountList}\n"
+          }
+          if (saveString.isNotEmpty()) saveString = saveString.dropLast(1)
+          saveString
         },
         restore = { restored ->
+          val eventList = (restored as? String).orEmpty().lines()
+          val dayEvent = eventList.map { event ->
+            val eventL = event.replace('\t', '\n').lines()
+            DayEvent(
+              day = LocalDate.parse(eventL[0]),
+              eventCountList = eventL[1].lines().map { eventType -> eventType.toInt() }
+            )
+          }
           EventState(
-            initialEventList = (restored as? List<String>)?.map { it ->
-              DayEvent(
-                day = LocalDate.parse(it.lines()[0]),
-                eventCountList = it.lines()[1].lines().map { eventType -> eventType.toInt() }
-              )
-            }.orEmpty()
+            initialEventList = dayEvent
           )
         }
       )

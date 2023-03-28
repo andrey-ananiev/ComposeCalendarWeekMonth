@@ -43,16 +43,23 @@ public class EventState(
         },
         restore = { restored ->
           val eventList = (restored as? String).orEmpty().lines()
-          val dayEvent = eventList.map { event ->
-            val eventL = event.replace('\t', '\n').lines()
-            DayEvent(
-              day = LocalDate.parse(eventL[0]),
-              eventCountList = eventL[1].dropLast(1).drop(1).replace(", ", "\n").lines().map { it.toInt() }
+          if (eventList.isEmpty()) {
+            EventState(
+              initialEventList = listOf()
+            )
+          } else {
+            val dayEvent = eventList.map { event ->
+              val eventL = event.replace('\t', '\n').lines()
+              DayEvent(
+                day = LocalDate.parse(eventL[0]),
+                eventCountList = eventL[1].dropLast(1).drop(1)
+                  .replace(", ", "\n").lines().map { it.toInt() }
+              )
+            }
+            EventState(
+              initialEventList = dayEvent
             )
           }
-          EventState(
-            initialEventList = dayEvent
-          )
         }
       )
   }

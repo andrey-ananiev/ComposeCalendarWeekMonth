@@ -42,12 +42,9 @@ public class EventState(
           saveString
         },
         restore = { restored ->
-          val eventList = (restored as? String).orEmpty().lines()
-          if (eventList.isEmpty()) {
-            EventState(
-              initialEventList = listOf()
-            )
-          } else {
+          val restoredString = (restored as? String).orEmpty()
+          val eventList = restoredString.lines()
+          if (restoredString.isNotEmpty()) {
             val dayEvent = eventList.map { event ->
               val eventL = event.replace('\t', '\n').lines()
               DayEvent(
@@ -58,6 +55,10 @@ public class EventState(
             }
             EventState(
               initialEventList = dayEvent
+            )
+          } else {
+            EventState(
+              initialEventList = listOf()
             )
           }
         }

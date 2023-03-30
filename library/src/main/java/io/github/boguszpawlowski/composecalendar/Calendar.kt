@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -214,6 +215,10 @@ public fun <T : SelectionState> Calendar(
     DayOfWeek.values().rotateRight(DaysOfWeek - firstDayOfWeek.ordinal)
   }
 
+  LaunchedEffect(key1 = calendarState.currentState.day) {
+    onSwipe(calendarState.currentState.day)
+  }
+
   Column(
     modifier = modifier
       .animateContentSize(),
@@ -236,7 +241,7 @@ public fun <T : SelectionState> Calendar(
             dayContent = dayContent,
             weekDaysNames = weekDaysNames,
             monthContainer = monthContainer,
-            onSwipe = onSwipe,
+            onSwipe = {},//onSwipe,
           )
         } else {
           MonthContent(
@@ -270,7 +275,7 @@ public fun <T : SelectionState> Calendar(
             dayContent = dayContent,
             weekDaysNames = weekDaysNames,
             weekContainer = weekContainer,
-            onSwipe = onSwipe
+            onSwipe = {},//onSwipe,onSwipe
           )
         } else {
           WeekContent(

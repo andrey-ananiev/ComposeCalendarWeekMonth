@@ -1,5 +1,6 @@
 package io.github.boguszpawlowski.composecalendar.sample
 
+import android.util.Log
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -28,7 +29,10 @@ fun StaticCalendarSample() {
       modifier = Modifier
         .padding(8.dp)
         .animateContentSize(),
-      calendarState = calendarState
+      calendarState = calendarState,
+      onSwipe = {
+        //Log.e("MyLog", "tttt")
+      }
     )
   }
 }
